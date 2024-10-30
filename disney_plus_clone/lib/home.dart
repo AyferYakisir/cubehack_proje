@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                   tonightMovies(),
                   const SizedBox(height: 15),
                   const Text(
-                    "Disney+'ta Yeni",
+                    "Aksiyon ve Macera",
                     style: TextStyle(
                         fontFamily: proxima,
                         fontWeight: FontWeight.w400,
