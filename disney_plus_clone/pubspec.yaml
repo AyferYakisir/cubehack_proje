@@ -1,0 +1,37 @@
+name: disney_plus_clone
+description: "A new Flutter project."
+publish_to: 'none' 
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  carousel_slider_plus: ^7.0.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/
+    - images/movies/
+    - images/categories/
+
+  fonts:
+    - family: Pacifico
+      fonts:
+        - asset: fonts/Pacifico.ttf
+    - family: Proxima
+      fonts:
+        - asset: fonts/Proxima_Bold.ttf
+          weight: 700
+        - asset: fonts/Proxima_Nova.ttf 
+          weight: 400
