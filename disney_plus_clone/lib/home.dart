@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
         slivers: [
           SliverAppBar(
             title: Image.asset(
-              'images/Disney_Plus_logo.svg.png',
+              'images/Disney_Plus_logo.png',
               width: 100,
               height: 50,
             ),
@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(16),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [themeColor, themeColor],
+                  colors: [themeColor, darkBlue, themeColor],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
   BottomNavigationBar bottomNavigator() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: themeColor,
+      backgroundColor: darkBlue,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
       currentIndex: _selectedIndex,
