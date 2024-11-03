@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:disney_plus_clone/models/categories.dart';
 import 'package:disney_plus_clone/constants.dart';
@@ -192,53 +190,31 @@ class _HomePageState extends State<HomePage> {
                   end: Alignment.bottomCenter,
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  highlights(),
-                  const SizedBox(height: 10),
-                  categories(),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Disney+'ta Yeni",
-                    style: TextStyle(
-                        fontFamily: proxima,
-                        fontWeight: FontWeight.w400,
-                        color: white,
-                        fontSize: 15),
-                  ),
-                  const SizedBox(height: 15),
-                  movies(),
-                  const SizedBox(height: 15),
-                  const Text(
-                    "Bu Akşam İzlemek İsteyebileceklerin",
-                    style: TextStyle(
-                      fontFamily: proxima,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: white,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  tonightMovies(),
-                  const SizedBox(height: 15),
-                  const Text(
-                    "Aksiyon ve Macera",
-                    style: TextStyle(
-                        fontFamily: proxima,
-                        fontWeight: FontWeight.w400,
-                        color: white,
-                        fontSize: 15),
-                  ),
-                  const SizedBox(height: 15),
-                  movies(),
-                ],
-              ),
+              child: _buildBody(),
             ),
           ),
         ],
       ),
       bottomNavigationBar: bottomNavigator(),
+    );
+  }
+
+  Column _buildBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        highlights(),
+        const SizedBox(height: 10),
+        categories(),
+        const SizedBox(height: 10),
+        movies("Disney+'ta Yeni"),
+        const SizedBox(height: 15),
+        tonightMovies(),
+        const SizedBox(height: 15),
+        movies("Korku ve Gerilim"),
+        const SizedBox(height: 15),
+        movies("Aksiyon ve Macera"),
+      ],
     );
   }
 
@@ -366,7 +342,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  FutureBuilder<List<Movie>> movies() {
+  Widget movies(String categoriesName) {
     return FutureBuilder<List<Movie>>(
       future: filmler(),
       builder: (context, snapshot) {
@@ -380,36 +356,55 @@ class _HomePageState extends State<HomePage> {
 
         final movies = snapshot.data!;
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: movies.map((movie) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: AssetImage(movie.imagePath),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                categoriesName,
+                style: const TextStyle(
+                  fontFamily: proxima,
+                  fontWeight: FontWeight.w400,
+                  color: white,
+                  fontSize: 15,
                 ),
-              );
-            }).toList(),
-          ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: movies.map((movie) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              image: AssetImage(movie.imagePath),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
         );
       },
     );
   }
 
-  FutureBuilder<List<Movie>> tonightMovies() {
+  Widget tonightMovies() {
     return FutureBuilder<List<Movie>>(
       future: filmler(),
       builder: (context, snapshot) {
@@ -423,30 +418,48 @@ class _HomePageState extends State<HomePage> {
 
         final movies = snapshot.data!;
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: movies.map((movie) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 150,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: AssetImage(movie.imagePath),
-                          fit: BoxFit.cover,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                "Bu Akşam İzlemek İsteyebileceklerin",
+                style: TextStyle(
+                  fontFamily: proxima,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  color: white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                child: Row(
+                  children: movies.map((movie) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Container(
+                        width: 150,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          image: DecorationImage(
+                            image: AssetImage(movie.imagePath),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
-              );
-            }).toList(),
-          ),
+              ),
+            ),
+          ],
         );
       },
     );
