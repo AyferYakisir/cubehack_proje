@@ -13,8 +13,9 @@ class TodoRepo {
         var todo = maps[index];
         int todo_id = todo["todo_id"];
         String text = todo["todo_text"];
+        int isCompleted = todo["todo_complete"] ?? 0; // Eğer null ise 0 kullan
 
-        return Todo(id: todo_id, text: text);
+        return Todo(id: todo_id, text: text, isCompleted: isCompleted);
       },
     );
   }
@@ -48,8 +49,8 @@ class TodoRepo {
         var todo = maps[index];
         int todo_id = todo["todo_id"];
         String text = todo["todo_text"];
-
-        return Todo(id: todo_id, text: text);
+        int isCompleted = todo["todo_complete"];
+        return Todo(id: todo_id, text: text, isCompleted: isCompleted);
       },
     );
   }
@@ -58,5 +59,26 @@ class TodoRepo {
     var db = await DbHelper.dbAccess();
 
     await db.delete("toDos", where: "todo_id = ?", whereArgs: [todo_id]);
+  }
+
+  Future<void> todoComplete(int todo_id) async {
+    var db = await DbHelper.dbAccess();
+    final List<Map<String, dynamic>> todo = await db.query(
+      'toDos',
+      where: 'todo_id = ?',
+      whereArgs: [todo_id],
+    );
+
+    if (todo.isNotEmpty) {
+      bool isCompleted = todo.first['todo_complete'] == 1;
+      int newCompleteValue = isCompleted ? 0 : 1;
+
+      await db.update(
+        'toDos',
+        {'todo_complete': newCompleteValue},
+        where: 'todo_id = ?',
+        whereArgs: [todo_id],
+      );
+    }
   }
 }

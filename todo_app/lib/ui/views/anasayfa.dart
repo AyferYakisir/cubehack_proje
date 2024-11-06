@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/constans/colors.dart';
 import 'package:todo_app/data/entity/todo.dart';
-import 'package:todo_app/main.dart';
 import 'package:todo_app/ui/cubit/anasayfa_cubit.dart';
 import 'package:todo_app/ui/views/detay_sayfasi.dart';
 import 'package:todo_app/ui/views/kayit_sayfasi.dart';
@@ -27,6 +26,7 @@ class _AnasayfaState extends State<Anasayfa> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("ToDo App"),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -40,7 +40,7 @@ class _AnasayfaState extends State<Anasayfa> {
                   onChanged: (value) {
                     context.read<AnasayfaCubit>().ara(value);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
               BlocBuilder<AnasayfaCubit, List<Todo>>(
@@ -64,6 +64,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                 ),
                               ).then(
                                 (value) {
+                                  // ignore: use_build_context_synchronously
                                   context.read<AnasayfaCubit>().todos();
                                 },
                               );
@@ -74,11 +75,27 @@ class _AnasayfaState extends State<Anasayfa> {
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 5),
                             tileColor: const Color.fromARGB(255, 255, 255, 255),
+                            leading: IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<AnasayfaCubit>()
+                                      .todoComplete(todos.id);
+                                },
+                                icon: Icon(
+                                  todos.isCompleted ==
+                                          1 // Eğer isCompleted 1 ise, tamamlanmış demektir
+                                      ? Icons.check_box
+                                      : Icons.check_box_outline_blank,
+                                  color: todos.isCompleted == 1
+                                      ? Colors.green // Eğer tamamlanmışsa yeşil
+                                      : Colors
+                                          .black, // Eğer tamamlanmamışsa siyah
+                                )),
                             title: Text(
-                              todos.text!,
-                              style: TextStyle(
+                              todos.text,
+                              style: const TextStyle(
                                 fontSize: 16,
-                                color: const Color.fromARGB(255, 0, 0, 0),
+                                color: Color.fromARGB(255, 0, 0, 0),
                               ),
                             ),
                             trailing: Container(
@@ -97,7 +114,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                 onPressed: () {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
-                                    content: Text("Todo Silinsin mi?"),
+                                    content: const Text("Todo Silinsin mi?"),
                                     action: SnackBarAction(
                                       label: "Evet",
                                       onPressed: () {
@@ -106,6 +123,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                             .sil(todos.id)
                                             .then(
                                           (value) {
+                                            // ignore: use_build_context_synchronously
                                             context
                                                 .read<AnasayfaCubit>()
                                                 .todos();
@@ -135,9 +153,10 @@ class _AnasayfaState extends State<Anasayfa> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => KayitSayfasi(),
+                builder: (context) => const KayitSayfasi(),
               )).then(
             (value) {
+              // ignore: use_build_context_synchronously
               context.read<AnasayfaCubit>().todos();
             },
           );

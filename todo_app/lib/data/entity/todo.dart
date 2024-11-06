@@ -2,10 +2,11 @@
 class Todo {
   int id;
   String text;
-
+  int isCompleted;
   Todo({
     required this.id,
     required this.text,
+    required this.isCompleted,
   });
 
 }

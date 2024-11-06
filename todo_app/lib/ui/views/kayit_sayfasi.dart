@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/main.dart';
 import 'package:todo_app/ui/cubit/kayit_cubit.dart';
 
 class KayitSayfasi extends StatefulWidget {
